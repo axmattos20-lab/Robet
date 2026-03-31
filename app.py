@@ -81,12 +81,13 @@ def run_bot():
         time.sleep(60)
 
 # 🔥 ESSA LINHA É A CHAVE
-print("🚀 Iniciando thread do robô...")
+if __name__ == "__main__":
+    print("🚀 Iniciando thread do robô...")
 
-thread = threading.Thread(target=run_bot)
-thread.daemon = True
-thread.start()
+    thread = threading.Thread(target=run_bot)
+    thread.daemon = True
+    thread.start()
 
-import os
-port = int(os.environ.get("PORT", 10000))
-app.run(host='0.0.0.0', port=port)
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
