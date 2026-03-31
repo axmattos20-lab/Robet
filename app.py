@@ -59,6 +59,8 @@ def home():
 def run_bot():
     import schedule
     import time
+    # 🔥 TESTE TEMPORÁRIO (coloque aqui)
+        enviar_whatsapp()
 
     schedule.every().day.at("10:00").do(enviar_whatsapp)
 
