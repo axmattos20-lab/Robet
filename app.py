@@ -3,8 +3,10 @@ import random
 from datetime import datetime
 
 # 🔑 SUAS CREDENCIAIS
-account_sid = 'AC7f78ef8a51b6d6ce898aab906d6e9270'
-auth_token = '62d6a40892e92cc217723e004d854f68'
+import os
+
+account_sid = os.environ.get('AC7f78ef8a51b6d6ce898aab906d6e9270')
+auth_token = os.environ.get('62d6a40892e92cc217723e004d854f68')
 
 client = Client(account_sid, auth_token)
 
