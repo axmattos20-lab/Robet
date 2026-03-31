@@ -1,12 +1,12 @@
 from twilio.rest import Client
 import random
 from datetime import datetime
-
-# 🔑 SUAS CREDENCIAIS
 import os
+# 🔑 SUAS CREDENCIAIS
 
-account_sid = os.environ.get('AC7f78ef8a51b6d6ce898aab906d6e9270')
-auth_token = os.environ.get('62d6a40892e92cc217723e004d854f68')
+
+account_sid = os.environ.get('ACCOUNT_SID')
+auth_token = os.environ.get('AUTH_TOKEN')
 
 client = Client(account_sid, auth_token)
 
