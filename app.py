@@ -87,11 +87,9 @@ def start_bot():
     run_bot()
 
 if __name__ == "__main__":
-    print("🚀 Iniciando robô...")
+    print("🚀 TESTE DIRETO")
 
-    # roda o bot em paralelo
-    bot_thread = threading.Thread(target=start_bot)
-    bot_thread.start()
+    run_bot()  # 🔥 roda direto (sem thread)
 
     import os
     port = int(os.environ.get("PORT", 10000))
