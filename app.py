@@ -40,8 +40,7 @@ def enviar_whatsapp():
 
     print("Mensagem enviada!")
 
-        # 🔥 TESTE TEMPORÁRIO (coloque aqui)
-        enviar_whatsapp()
+        
 
 # =========================
 # PARTE DO RENDER (NÃO APAGAR)
