@@ -63,6 +63,7 @@ def run_bot():
     import time
     
     # 🔥 TESTE TEMPORÁRIO (coloque aqui)
+    print("🔥 TESTE INICIADO")
     enviar_whatsapp()
 
     schedule.every().day.at("10:00").do(enviar_whatsapp)
