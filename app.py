@@ -81,12 +81,17 @@ def run_bot():
         time.sleep(60)
 
 # 🔥 ESSA LINHA É A CHAVE
-if __name__ == "__main__":
-    print("🚀 Iniciando thread do robô...")
+import threading
 
-    thread = threading.Thread(target=run_bot)
-    thread.daemon = True
-    thread.start()
+def start_bot():
+    run_bot()
+
+if __name__ == "__main__":
+    print("🚀 Iniciando robô...")
+
+    # roda o bot em paralelo
+    bot_thread = threading.Thread(target=start_bot)
+    bot_thread.start()
 
     import os
     port = int(os.environ.get("PORT", 10000))
