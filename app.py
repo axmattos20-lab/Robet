@@ -19,27 +19,30 @@ jogos = [
 ]
 
 def enviar_whatsapp():
-    selecoes = random.sample(jogos, 3)
-    odd_total = 1
+    try:
+        selecoes = random.sample(jogos, 3)
+        odd_total = 1
 
-    mensagem = f"📅 {datetime.now().strftime('%d/%m/%Y')}\n"
-    mensagem += "🎯 Aposta do Dia:\n\n"
+        mensagem = f"📅 {datetime.now().strftime('%d/%m/%Y')}\n"
+        mensagem += "🎯 Aposta do Dia:\n\n"
 
-    for s in selecoes:
-        mensagem += f"{s['jogo']} - {s['mercado']} (odd {s['odd']})\n"
-        odd_total *= s["odd"]
+        for s in selecoes:
+            mensagem += f"{s['jogo']} - {s['mercado']} (odd {s['odd']})\n"
+            odd_total *= s["odd"]
 
-    mensagem += f"\n🔥 Odd Total: {round(odd_total,2)}"
-    mensagem += "\n💰 Stake: 5% da banca"
+        mensagem += f"\n🔥 Odd Total: {round(odd_total,2)}"
+        mensagem += "\n💰 Stake: 5% da banca"
 
-    client.messages.create(
-        from_='whatsapp:+14155238886',
-        body=mensagem,
-        to='whatsapp:+5521973824229'
-    )
+        message = client.messages.create(
+            from_='whatsapp:+14155238886',
+            body=mensagem,
+            to='whatsapp:+5521973824229'
+        )
 
-    print("Mensagem enviada!")
+        print("✅ Mensagem enviada! SID:", message.sid)
 
+    except Exception as e:
+        print("❌ ERRO AO ENVIAR:", e)
         
 
 # =========================
