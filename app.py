@@ -19,6 +19,8 @@ jogos = [
 ]
 
 def enviar_whatsapp():
+    print("➡️ Entrou na função enviar_whatsapp")
+
     try:
         selecoes = random.sample(jogos, 3)
         odd_total = 1
@@ -33,10 +35,12 @@ def enviar_whatsapp():
         mensagem += f"\n🔥 Odd Total: {round(odd_total,2)}"
         mensagem += "\n💰 Stake: 5% da banca"
 
+        print("📤 Enviando mensagem...")
+
         message = client.messages.create(
             from_='whatsapp:+14155238886',
             body=mensagem,
-            to='whatsapp:+5521973824229'
+            to='whatsapp:+55SEUNUMERO'
         )
 
         print("✅ Mensagem enviada! SID:", message.sid)
