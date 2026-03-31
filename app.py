@@ -82,15 +82,18 @@ def run_bot():
 
 # 🔥 ESSA LINHA É A CHAVE
 import threading
+import os
 
 def start_bot():
+    print("🔥 ROBÔ INICIADO")
     run_bot()
 
 if __name__ == "__main__":
-    print("🚀 TESTE DIRETO")
+    print("🚀 Iniciando robô...")
 
-    run_bot()  # 🔥 roda direto (sem thread)
+    thread = threading.Thread(target=start_bot)
+    thread.daemon = True
+    thread.start()
 
-    import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
