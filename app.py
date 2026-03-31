@@ -61,10 +61,14 @@ def home():
 def run_bot():
     import schedule
     import time
-    
-    # 🔥 TESTE TEMPORÁRIO (coloque aqui)
-    print("🔥 TESTE INICIADO")
-    enviar_whatsapp()
+
+    print("🔥 ROBÔ INICIADO")
+
+    try:
+        print("📲 Tentando enviar mensagem...")
+        enviar_whatsapp()
+    except Exception as e:
+        print("❌ ERRO AO ENVIAR:", e)
 
     schedule.every().day.at("10:00").do(enviar_whatsapp)
 
