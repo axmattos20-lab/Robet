@@ -40,7 +40,7 @@ def enviar_whatsapp():
         message = client.messages.create(
             from_='whatsapp:+14155238886',
             body=mensagem,
-            to='whatsapp:+55SEUNUMERO'
+            to='whatsapp:+5521973824229'
         )
 
         print("✅ Mensagem enviada! SID:", message.sid)
