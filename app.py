@@ -1,99 +1,61 @@
+from flask import Flask
 from twilio.rest import Client
-import random
-from datetime import datetime
 import os
-# 🔑 SUAS CREDENCIAIS
+import schedule
+import time
+from threading import Thread
 
-
-account_sid = os.environ.get('ACCOUNT_SID')
-auth_token = os.environ.get('AUTH_TOKEN')
-
+# ===============================
+# CONFIGURAÇÃO TWILIO
+# ===============================
+account_sid = os.environ.get('ACCOUNT_SID')  # do Render Environment Variables
+auth_token = os.environ.get('AUTH_TOKEN')    # do Render Environment Variables
 client = Client(account_sid, auth_token)
 
-jogos = [
-    {"jogo": "Flamengo x Bahia", "mercado": "Over 1.5 gols", "odd": 1.35},
-    {"jogo": "Palmeiras x Cuiabá", "mercado": "Palmeiras vence", "odd": 1.50},
-    {"jogo": "Real Madrid x Getafe", "mercado": "Over 2.5 gols", "odd": 1.60},
-    {"jogo": "PSG x Nantes", "mercado": "PSG vence + Over 1.5", "odd": 1.55},
-    {"jogo": "Liverpool x Everton", "mercado": "Over 2.5 gols", "odd": 1.60},
-]
-
+# ===============================
+# FUNÇÃO DE ENVIO DE MENSAGEM
+# ===============================
 def enviar_whatsapp():
-    print("➡️ Entrou na função enviar_whatsapp")
-
+    mensagem = "📅 Aposta do Dia:\nJogo X - Mercado Y (Odd 1.80)\n🔥 Odd Total: 1.80"
+    to = 'whatsapp:+5521973824229'  # substitua pelo seu número com DDD
+    
     try:
-        selecoes = random.sample(jogos, 3)
-        odd_total = 1
-
-        mensagem = f"📅 {datetime.now().strftime('%d/%m/%Y')}\n"
-        mensagem += "🎯 Aposta do Dia:\n\n"
-
-        for s in selecoes:
-            mensagem += f"{s['jogo']} - {s['mercado']} (odd {s['odd']})\n"
-            odd_total *= s["odd"]
-
-        mensagem += f"\n🔥 Odd Total: {round(odd_total,2)}"
-        mensagem += "\n💰 Stake: 5% da banca"
-
-        print("📤 Enviando mensagem...")
-
+        print("➡️ Tentando enviar mensagem...")
         message = client.messages.create(
-            from_='whatsapp:+14155238886',
+            from_='whatsapp:+14155238886',  # Twilio Sandbox
             body=mensagem,
-            to='whatsapp:+5521973824229'
+            to=to
         )
-
         print("✅ Mensagem enviada! SID:", message.sid)
-
     except Exception as e:
-        print("❌ ERRO AO ENVIAR:", e)
-        
+        print("❌ ERRO REAL DO TWILIO:", e)
 
-# =========================
-# PARTE DO RENDER (NÃO APAGAR)
-# =========================
+# ===============================
+# AGENDAMENTO DIÁRIO
+# ===============================
+def enviar_diariamente():
+    enviar_whatsapp()
 
-from flask import Flask
-import threading
+# Envia todos os dias às 10:00 AM
+schedule.every().day.at("10:00").do(enviar_diariamente)
 
+def rodar_agenda():
+    while True:
+        schedule.run_pending()
+        time.sleep(60)  # checa a cada minuto
+
+# Inicia a thread da agenda
+Thread(target=rodar_agenda).start()
+
+# ===============================
+# FLASK PARA MANTER RENDER ATIVO
+# ===============================
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Robô rodando!"
+    return "🤖 Robô de Apostas Ativo!"
 
-def run_bot():
-    import schedule
-    import time
-
-    print("🔥 ROBÔ INICIADO")
-
-    try:
-        print("📲 Tentando enviar mensagem...")
-        enviar_whatsapp()
-    except Exception as e:
-        print("❌ ERRO AO ENVIAR:", e)
-
-    schedule.every().day.at("10:00").do(enviar_whatsapp)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
-
-# 🔥 ESSA LINHA É A CHAVE
-import threading
-import os
-
-def start_bot():
-    print("🔥 ROBÔ INICIADO")
-    run_bot()
-
-if __name__ == "__main__":
-    print("🚀 Iniciando robô...")
-
-    thread = threading.Thread(target=start_bot)
-    thread.daemon = True
-    thread.start()
-
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+if __name__ == '__main__':
+    # Porta padrão 10000 ou a definida no Render
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
