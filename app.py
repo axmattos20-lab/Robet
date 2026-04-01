@@ -37,7 +37,7 @@ def enviar_diariamente():
     enviar_whatsapp()
 
 # Envia todos os dias às 10:00 AM
-schedule.every().day.at("10:00").do(enviar_diariamente)
+schedule.every().day.at("22:00").do(enviar_diariamente)
 
 def rodar_agenda():
     while True:
